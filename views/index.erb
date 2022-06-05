@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>BBS</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Damion&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  
+  <body>
+    <div class="full_layout">
+      <div class="container-fluid sita_haikei">
+        <div class="row d-flex justify-content-center main_image">
+          <div class="card col-lg-6 m-5 card_hako">    <!--カードが入ってる箱-->
+            <div class="card-body c enter-block">　    <!--カード自体-->
+              
+            <h1 class="title">My Photo Album</h1>
+              
+              <form action="/new" method="post" enctype="multipart/form-data">
+                <p>
+                  名前:<input type="text" name="user_name" class="form-control" />
+                </p>
+                <p>
+                  本文:<input type="text" name="body" class="form-control" />
+                </p>
+                <p><input type="file" name="file" class="form-control-file" /></p>
+                <p>
+                  <input type="submit" value="POST" class="btn btn-dark float-right" />
+                </p>
+              </form>
+            
+            </div>
+          </div>
+        </div>
+        
+        <% @contents.each do |content| %>
+          <div class = "card col-lg-8 offset-2 toukou_gazou_form">
+            <div class="card-body">
+              
+              <p><%= content.name %></p>
+              <p><%= content.body %></p>
+              
+              <% unless content.img.empty? %>
+                <p><img class="img-fluid rounded" src="<%= content.img %>"></p>
+              <% end %>
+              <div class="d-flex justify-content-end align-items-center mt-3">
+                
+                <span class="card-footer-text"><%= content.good %></span>
+                
+                <form action="/good/<%= content.id %>" method="post">
+                  <input type="submit" value="LIKE" class="btn card-footer-text">
+                </form>
+                
+                <form action="/delete/<%= content.id %>" method="post">
+                  <input type="submit" value="DELETE" class="btn card-footer-text">
+                </form>
+                <a href="/edit/<%= content.id %>" class="btn card-footer-text">EDIT</a>
+                
+                <form action="/comment/<%= content.id %>" method="post">
+                  <input type="submit" value="COMMENT" class="btn card-footer-text">
+                </form>
+                
+              </div>
+            </div>
+          </div>
+        <% end %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
